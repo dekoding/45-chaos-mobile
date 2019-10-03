@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:forty_five_chaos/models/chaos.dart';
 import 'package:forty_five_chaos/services/data.dart';
@@ -12,14 +13,7 @@ class ChaosPage extends StatefulWidget {
 }
 
 class _ChaosPage extends State<ChaosPage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,23 +24,30 @@ class _ChaosPage extends State<ChaosPage> {
       ),
       body: Column(
         children: <Widget>[
-          Stack(
-            fit: StackFit.passthrough,
-            children: <Widget>[
-              Image.asset(
-                  'assets/images/whiteHouseBanner.jpg',
-                  fit: BoxFit.cover
+          OrientationBuilder(
+              builder: (context, orientation) {
+                return Stack(
+                  fit: StackFit.passthrough,
+                  overflow: Overflow.clip,
+                  children: <Widget>[
+                    Image.asset(
+                        'assets/images/whiteHouseBanner.jpg',
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height / 5,
+                        width: MediaQuery.of(context).size.width
+                    ),
+                    Center(
+                        child: Text(
+                            'Departures and Nominations',
+                            style: TextStyle(
+                                fontFamily: "Fjalla One"
+                            )
+                        )
+                    )
+                  ],
+                );
+              }
               ),
-              Center(
-                  child: Text(
-                      'Departures and Nominations',
-                      style: TextStyle(
-                          fontFamily: "Fjalla One"
-                      )
-                  )
-              )
-            ],
-          ),
           Expanded(
             child: FutureBuilder<List<ChaosEntry>>(
               future: getDepartures(),
