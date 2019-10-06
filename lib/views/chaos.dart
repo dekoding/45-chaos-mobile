@@ -18,6 +18,8 @@ class _ChaosPage extends State<ChaosPage> {
   List<ChaosEntry> items = [];
   List<ChaosEntry> allItems = [];
 
+  ChaosEntry selected;
+
   Future<void> populateItems() async {
     List<ChaosEntry> data = await getDepartures();
     setState(() {
@@ -49,7 +51,28 @@ class _ChaosPage extends State<ChaosPage> {
         items.addAll(allItems);
       });
     }
+  }
 
+  Future<void> _details() async {
+    switch(
+      await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) {
+            return SimpleDialog(
+              title: Text(selected.firstName + ' ' + selected.lastName),
+              children: <Widget>[
+                Text('Blah blah nothing here yet'),
+                SimpleDialogOption(
+                  onPressed: () { Navigator.pop(context, true); },
+                  child: const Text('OK'),
+                )
+              ],
+            );
+          }
+      )
+    ) {
+      default: break;
+    }
   }
 
   @override
@@ -120,6 +143,10 @@ class _ChaosPage extends State<ChaosPage> {
                         child: Card(
                           elevation: 8,
                           child: ListTile(
+                            onTap: () async {
+                              selected = entry;
+                              await _details();
+                            },
                             leading: ClipRRect(
                                 borderRadius: BorderRadius.circular(25.0),
                                 child: Image.network(
