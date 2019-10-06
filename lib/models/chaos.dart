@@ -13,4 +13,14 @@ class ChaosEntry {
   int totalTime;
   String position;
   String firstName;
+
+  contains(String value) {
+    bool match = false;
+    [lastName, firstName, affiliation, position].forEach((field) {
+      if(field.toLowerCase().contains(value.toLowerCase())) {
+        match = true;
+      }
+    });
+    return match;
+  }
 }
