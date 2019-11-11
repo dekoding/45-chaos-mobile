@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:forty_five_chaos/styling/fonts.dart';
+import 'package:forty_five_chaos/views/blog.dart';
 import 'package:forty_five_chaos/views/chaos.dart';
+import 'package:forty_five_chaos/views/faqs.dart';
 import 'package:forty_five_chaos/views/mooches.dart';
 import 'package:forty_five_chaos/views/stats.dart';
 
@@ -19,6 +21,7 @@ class ChaosApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      color: ChaosColors.darkBlue,
       home: DefaultTabController(
           length: tabs.length,
           child: Scaffold(
@@ -28,7 +31,7 @@ class ChaosApp extends StatelessWidget {
               child: Image.asset('assets/images/logo.png'),
             ),
             title: Text('Chaos 45'),
-            backgroundColor: ChaosColors.blue,
+            backgroundColor: ChaosColors.darkBlue,
             bottom: TabBar(tabs: tabs),
           ),
             body: TabBarView(
@@ -36,8 +39,8 @@ class ChaosApp extends StatelessWidget {
                 ChaosPage(),
                 MoochesPage(),
                 StatsPage(),
-                Placeholder(),
-                Placeholder()
+                FaqsPage(),
+                BlogPage()
               ],
             )
         ),

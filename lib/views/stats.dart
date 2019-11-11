@@ -49,7 +49,8 @@ class _StatsPage extends State<StatsPage> {
           title: 'Average Days for Departed Career Officials:',
           subtitle: stats.avgRolloverTime.toString()
       ),
-      departuresByType(stats)
+      departuresByType(stats),
+      departuresByAffiliation(stats)
     ];
   }
 
@@ -77,6 +78,28 @@ class _StatsPage extends State<StatsPage> {
     );
   }
 
+  Card departuresByAffiliation(StatRecords records) {
+    Series series = new Series<StatEntry, String>(
+      id: 'Departures by Affiliation',
+        domainFn: (StatEntry entry, _) => entry.label,
+        measureFn: (StatEntry entry, _) => entry.count,
+        colorFn: (StatEntry entry, _) => entry.color,
+        data: records.affiliationStats
+    );
+
+    return Card(
+      elevation: 8,
+        child: SizedBox(
+          height: 800,
+          child: BarChart(
+              [series],
+              animate: true,
+              vertical: false
+          ),
+        )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -93,14 +116,20 @@ class _StatsPage extends State<StatsPage> {
                   case ConnectionState.none:
                   case ConnectionState.active:
                   case ConnectionState.waiting:
-                    widget = Placeholder();
+                    widget = Align(
+                      child: CircularProgressIndicator(),
+                      alignment: AlignmentDirectional.center,
+                    );
                     break;
                   case ConnectionState.done:
                     if (snapshot.hasError || !snapshot.hasData) {
                       print('Stats: ${snapshot.hasError
                           ? snapshot.error
                           : 'Missing data'}');
-                      widget = Placeholder();
+                      widget = Align(
+                        child: CircularProgressIndicator(),
+                        alignment: AlignmentDirectional.center,
+                      );
                       break;
                     } else {
                       if (snapshot.data != null) {
@@ -109,7 +138,10 @@ class _StatsPage extends State<StatsPage> {
                           children: makeTiles(stats)
                         );
                       } else {
-                        widget = Placeholder();
+                        widget = Align(
+                          child: CircularProgressIndicator(),
+                          alignment: AlignmentDirectional.center,
+                        );
                         break;
                       }
                     }

@@ -123,7 +123,11 @@ class _ChaosPage extends State<ChaosPage> {
             ),
           ),
           Expanded(
-              child: ListView.builder(
+              child: items.length == 0 ? Align(
+                child: CircularProgressIndicator(),
+                alignment: AlignmentDirectional.center,
+              ) :
+              ListView.builder(
                   itemCount: items.length,
                   itemBuilder: (context, index) {
                     ChaosEntry entry = items[index];

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:charts_flutter/flutter.dart';
 
 Map<String, String> labelMap = {
@@ -6,6 +8,17 @@ Map<String, String> labelMap = {
   'F': 'Fired',
   '?': 'Unknown'
 };
+
+Random random = new Random();
+
+String generateRandomColor(){
+  int length = 6;
+  String chars = '0123456789ABCDEF';
+  String hex = '';
+  while(length-- > 0) hex += chars[(random.nextInt(16)) | 0];
+  hex = hex + 'FF';
+  return hex;
+}
 
 class StatEntry {
   Map<String, Color> colorMap = {
@@ -29,6 +42,7 @@ class StatEntry {
     this.label = labelMap[entry['label']] != null
         ? labelMap[entry['label']]
         : entry['label'];
+    this.color = Color.fromHex(code: generateRandomColor());
     this.count = entry['count'];
   }
 
@@ -53,7 +67,7 @@ class StatRecords {
 
     this.affiliationStats = [];
 
-    List<dynamic> affiliationStatsTemp = json['leaveTypes'];
+    List<dynamic> affiliationStatsTemp = json['affiliationStats'];
     affiliationStatsTemp.forEach((map) {
       this.affiliationStats.add(StatEntry.forAffiliations(map));
     });
