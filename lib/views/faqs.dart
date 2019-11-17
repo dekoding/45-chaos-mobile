@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:forty_five_chaos/shared/customwidgets.dart';
-import 'package:forty_five_chaos/styling/fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FaqsPage extends StatefulWidget {
