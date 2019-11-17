@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:forty_five_chaos/models/chaos.dart';
+import 'package:forty_five_chaos/models/definition.dart';
 import 'package:forty_five_chaos/models/stat.dart';
 import 'package:http/http.dart' as http;
 
@@ -64,5 +65,21 @@ class DataService {
     } else {
       return new StatRecords.none();
     }
+  }
+
+  static Future<List<Definition>> getDefinitions() async {
+    final response = await http.get('https://45chaos.com/api/definitions');
+    List<dynamic> data = await compute(decodeArray, response.body);
+
+    List<Definition> results = [];
+
+    for(int i = 0; i < data.length; i++) {
+      Definition definition = new Definition(
+        name: data[i]['Name'],
+        definition: data[i]['Definition']
+      );
+      results.add(definition);
+    }
+    return results;
   }
 }
